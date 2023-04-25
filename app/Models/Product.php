@@ -10,9 +10,11 @@ class ProductCategory extends Model
     use HasFactory;
     protected $guarded = [];
     protected $fillable = ['name'];
+    protected $with = ['product_category'];
+    protected $appends = ['product_variants', 'shipping_id'];
 
-    public function products()
+    public function product_category()
     {
-        return $this->hasMany(Product::class, 'category_id');
+        return $this->belongsTo(ProductCategory::class, 'category_id', 'id');
     }
 }

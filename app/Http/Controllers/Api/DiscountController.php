@@ -1,19 +1,26 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 use App\Models\Discount;
 use Illuminate\Http\Request;
+use App\Services\DiscountService;
+use App\Http\Controllers\ApiController;
 
 class DiscountController extends ApiController
 {
     /**
      * Display a listing of the resource.
      */
+    protected $discountService;
+    public function __construct(DiscountService $discountService)
+    {
+        $this->discountService = $discountService;
+    }
+
     public function index()
     {
-        $discount = Discount::All();
-        dd($discount);
+        return response()->json($this->discountService->getAll());
     }
 
     /**
@@ -29,15 +36,24 @@ class DiscountController extends ApiController
      */
     public function store(Request $request)
     {
-        //
+        try{
+            return response()->json($this->discountService->create($request));
+            }catch(\Exception $e) {
+                return $e;
+            }
     }
+
 
     /**
      * Display the specified resource.
      */
-    public function show(Discount $discount)
+    public function show(int $id)
     {
-        //
+        try{
+            return response()->json($this->discountService->find($id));
+        }catch(\Exception $e) {
+            return $e;
+        }
     }
 
     /**
@@ -53,7 +69,7 @@ class DiscountController extends ApiController
      */
     public function update(Request $request, Discount $discount)
     {
-        //
+
     }
 
     /**

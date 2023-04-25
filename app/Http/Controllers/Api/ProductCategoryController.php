@@ -65,8 +65,8 @@ class ProductCategoryController extends ApiController
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(ProductCategory $productCategory)
+    public function destroy(int $id)
     {
-        //
+        return $this->productCategoryService->delete($id);
     }
 }
