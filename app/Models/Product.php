@@ -12,6 +12,8 @@ class Product extends Model
 
     protected $with = ['product_category', 'discount'];
 
+    protected $appends = ['product_variants', 'shipping_id'];
+
 
     public function product_category()
     {
@@ -22,6 +24,25 @@ class Product extends Model
     {
         return $this->belongsTo(Discount::class);
     }
+
+    public function product_variant_option()
+    {
+        return $this->hasMany(ProductVariantOption::class, 'product_id', 'id');
+    }
+
+    public function product_variant_option_inventories()
+    {
+        return $this->hasMany(ProductVariantOptionInventory::class, 'product_id', 'id');
+    }
+
+    public function shipping()
+    {
+        return $this->hasOne(ProductShipping::class, 'product_id', 'id');
+    }
+
+    
+
+
 
 
 }
