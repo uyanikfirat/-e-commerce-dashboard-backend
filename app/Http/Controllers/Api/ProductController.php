@@ -37,7 +37,7 @@ class ProductController extends ApiController
      */
     public function store(Request $request)
     {
-        //
+        
     }
 
     /**
