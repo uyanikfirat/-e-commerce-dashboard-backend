@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\Product;
 use App\Models\Discount;
 use Illuminate\Http\Request;
 use App\Services\DiscountService;
@@ -67,16 +68,28 @@ class DiscountController extends ApiController
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Discount $discount)
+    public function update(int $id, Request $request)
     {
-
+        try{
+            return response()->json($this->discountService->update($id, $request));
+        }catch(\Exception $e) {
+            return $e;
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Discount $discount)
+    public function destroy(Request $request, $id)
     {
-        //
+        $discount = Discount::findOrFail($id);
+
+        // Detach all related products
+        $discount->products()->detach();
+
+        // Delete the discount itself
+        $discount->delete();
+
+        return redirect()->back()->with('success', 'The discount and all related products have been deleted.');
     }
 }
