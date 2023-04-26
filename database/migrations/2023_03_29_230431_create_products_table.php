@@ -22,9 +22,8 @@ return new class extends Migration
             $table->unsignedBigInteger('discount_id');
             $table->boolean('status')->default(true);
             $table->timestamps();
-
             $table->foreign('category_id')->references('id')->on('product_categories');
-            $table->foreign('discount_id')->references('id')->on('discounts')->onDelete('cascade');
+            $table->foreign('discount_id')->references('id')->on('discounts');
         });
     }
 
