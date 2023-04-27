@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\ProductCategory;
 use App\Http\Controllers\ApiController;
 use App\Services\ProductCategoryService;
+use App\Http\Requests\ProductCategoryRequest;
 
 class ProductCategoryController extends ApiController
 {
@@ -25,7 +26,7 @@ class ProductCategoryController extends ApiController
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ProductCategoryRequest $request)
     {
         return response()->json($this->productCategoryService->create($request));
     }

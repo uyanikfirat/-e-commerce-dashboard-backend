@@ -10,7 +10,7 @@ class Product extends Model
 
     protected $guarded = [];
 
-    protected $with = ['product_category', 'discount'];
+    protected $with = ['product_category', 'discount', 'images'];
 
     protected $appends = ['product_variants', 'shipping_id'];
 
@@ -40,7 +40,10 @@ class Product extends Model
         return $this->hasOne(ProductShipping::class, 'product_id', 'id');
     }
 
-    
+    public function images()
+    {
+        return $this->hasMany(ProductImage::class, 'product_id','id');
+    }
 
 
 

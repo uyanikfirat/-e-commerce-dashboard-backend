@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use App\Rules\ProductVariantRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class DiscountStoreRequest extends FormRequest
+class ProductStoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -29,7 +29,7 @@ class DiscountStoreRequest extends FormRequest
     {
         return [
             'name' => 'required|max:161',
-            'category_id' => 'required|exist:product_categories,id',
+            'category_id' => 'required|exists:product_categories,id',
             'sku' => 'required|max:20',
             'shipping_id' => 'required|exists:shippings,id',
             'images' => 'required|array',

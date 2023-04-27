@@ -6,6 +6,7 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Services\ProductService;
 use App\Http\Controllers\ApiController;
+use App\Http\Requests\ProductStoreRequest;
 
 class ProductController extends ApiController
 {
@@ -25,19 +26,15 @@ class ProductController extends ApiController
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ProductStoreRequest $request)
     {
-        
+        try{
+            return response()->json($this->productService->create($request));
+        }catch(\Exception $e) {
+            return $e;
+        }
     }
 
     /**

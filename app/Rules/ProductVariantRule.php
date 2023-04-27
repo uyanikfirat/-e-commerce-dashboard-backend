@@ -14,6 +14,7 @@ class ProductVariantRule implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
+
         $decodeArray = json_decode($value, true);
 
         if (!is_array($decodeArray)) {
@@ -42,7 +43,7 @@ class ProductVariantRule implements ValidationRule
                 return;
             }
 
-            if(empty($item['value']) ||!is_numeric($item['value'])) {
+            if(empty($item['value']) ||!is_string($item['value'])) {
                 $fail("The {$attribute} contains an item with an invalid 'value' property.");
                 return;
             }
