@@ -82,10 +82,23 @@ class Product extends Model
         foreach($this->product_variant_option_prices as $index => $pvop){
             $productvariants[$index]['id'] = $pvop->id;
             $productvariants[$index]['price'] = $pvop->price;
-            $productvariants[$index]['value'] = $pvop->product_variant_option['value'];
+        }
+        foreach($this->product_variant_options as $index => $pvo){
+            $productvariants[$index]['value'] = $pvo->value;
         } return $productvariants;
 
     }
+
+    public function getImageUrlAttribute()
+{
+    $image = $this->images()->orderBy('id', 'asc')->first();
+
+    if ($image) {
+        return $image->image_url;
+    } else {
+        return '/default-image.jpg'; // Varsayılan resim yolunu belirleyebilirsiniz
+    }
+}
 
 
 
