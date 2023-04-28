@@ -3,17 +3,17 @@
 namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
-use App\Models\ProductShipping;
+use App\Models\ProductVariantOptionPrice;
 use App\Http\Controllers\ApiController;
 
-class ProductShippingController extends ApiController
+class ProductVariantOptionPriceController extends ApiController
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        return ProductVariantOptionPrice::all();
     }
 
     /**
@@ -35,7 +35,7 @@ class ProductShippingController extends ApiController
     /**
      * Display the specified resource.
      */
-    public function show(ProductShipping $productShipping)
+    public function show(ProductVariantOptionPrice $productVariantOption)
     {
         //
     }
@@ -43,7 +43,7 @@ class ProductShippingController extends ApiController
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(ProductShipping $productShipping)
+    public function edit(ProductVariantOptionPrice $productVariantOption)
     {
         //
     }
@@ -51,7 +51,7 @@ class ProductShippingController extends ApiController
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, ProductShipping $productShipping)
+    public function update(Request $request, ProductVariantOptionPrice $productVariantOption)
     {
         //
     }
@@ -59,7 +59,7 @@ class ProductShippingController extends ApiController
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(ProductShipping $productShipping)
+    public function destroy(ProductVariantOptionPrice $productVariantOption)
     {
         //
     }
