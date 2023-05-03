@@ -62,7 +62,7 @@ class ProductController extends ApiController
      * Update the specified resource in storage.
      */
     public function update(ProductUpdateRequest $request, string $id)
-    {   
+    {
         try{
             return response()->json($this->productService->update($id, $request));
         }catch(\Exception $e) {
@@ -73,8 +73,15 @@ class ProductController extends ApiController
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(int $id)
     {
-        //
+        $product_id = intval($id);
+
+        try {
+            return response()->json($this->productService->delete($product_id));
+        } catch (\Exception $e) {
+            return $e;
+            //return response()->json(['error' => 'An error occurred'], 500);
+        }
     }
 }

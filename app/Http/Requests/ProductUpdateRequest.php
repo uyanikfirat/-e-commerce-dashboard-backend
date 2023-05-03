@@ -36,25 +36,16 @@ class ProductUpdateRequest extends FormRequest
         ];
     }
 
-    public function message()
+    public function passedValidation()
     {
-        return [
-            'name.required' => 'The name field is required.',
-            'name.max' => 'The name field may not be greater than :max characters.',
-            'category_id.required' => 'The name category_id required.',
-        ];
-    }
+       // Remove the unwanted property from the request data
+       $requestData = $this->except('created_at','updated_at', 'product_variant_options', 'product_variant_option_inventories', 'product_variant_option_prices', 'product_shipping', 'product_category', 'discount');
 
-    protected function prepareForValidation()
-    {
-        $filteredData = $this->all();
-
-        foreach ($filteredData as $key => $data) {
-            if(is_numeric($data)){
-                $filteredData[$key] = (int)$data;
-            }
-        }
-
-        $this->replace($filteredData);
+        // Merge the new data into the request
+        $this->replace(array_merge($requestData, [
+            'product_variants' => json_decode($this->product_variants, true),
+            'deleted_images' => json_decode($this->deleted_images, true),
+            'deleted_variants' => json_decode($this->deleted_variants, true),
+        ]));
     }
 }

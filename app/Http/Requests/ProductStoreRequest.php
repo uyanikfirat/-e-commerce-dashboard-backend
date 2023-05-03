@@ -47,16 +47,14 @@ class ProductStoreRequest extends FormRequest
         ];
     }
 
-    protected function prepareForValidation()
+    public function passedValidation()
     {
-        $filteredData = $this->all();
+       // Remove the unwanted property from the request data
+       $requestData = $this->except('created_at','updated_at', 'product_variant_options', 'product_variant_option_inventories', 'product_variant_option_prices', 'product_shipping');
 
-        foreach ($filteredData as $key => $data) {
-            if(is_numeric($data)){
-                $filteredData[$key] = (int)$data;
-            }
-        }
-
-        $this->replace($filteredData);
+        // Merge the new data into the request
+        $this->replace(array_merge($requestData, [
+            'product_variants' => json_decode($this->product_variants, true)
+        ]));
     }
 }

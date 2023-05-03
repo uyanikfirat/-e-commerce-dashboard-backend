@@ -75,15 +75,13 @@ class ProductService extends BaseService
        }
     }
 
-
+//request duzenlenicek fazla datalar gelmeyecek.
     public function update(int $id, Request $request)
     {
        $product = $this->productrepository->find($id);
        $product->fill($request->except(['size', 'images', 'shipping_id', 'product_variants', 'deleted_images', 'deleted_variants']));
        $product->save();
        $this->updateProductAssociations($product, $request);
-    //    da($request->all());
-
     }
 
     protected function updateProductAssociations(Product $product, Request $request)
@@ -126,10 +124,27 @@ class ProductService extends BaseService
 
     protected function deleteProductAssociations(Product $product)
     {
-
+        $product->images()->delete();
+      $product->productShipping()->delete();
+      $product->size()->delete();
+      //$this->deleteVariants($product);
     }
     protected function deleteVariants(array $deleteVariants, Product $product)
     {
+        if (is_array($deleteVariants) && count($deleteVariants)) {
+            foreach ($deleteVariants as $variant) {
+               if (isset($variant['id'])) {
+                  // Find and delete the related product_variant_options_inventories
+                  $product->productVariantOptionInventories()->where('stock', $variant['stock'])->delete();
+
+                  // Find and delete the related product_variant_options_prices
+                  $product->productVariantOptionPrices()->where('price', $variant['price'])->delete();
+
+                  // Find and delete the related product_variant_options
+                  $product->productVariantOptions()->where('id', $variant['id'])->delete();
+              }
+            }
+         }
 
     }
 
@@ -140,5 +155,7 @@ class ProductService extends BaseService
       $this->deleteProductAssociations($product);
       $product->delete();
    }
+
+
 
 }
