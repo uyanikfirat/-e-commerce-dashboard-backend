@@ -11,6 +11,9 @@ class ProductVariantOptionPrice extends Model
 
     protected $guarded = [];
 
-    protected $fillable = ['product_variant_option_id','price'];
+    protected $fillable = [
+        'product_variant_option_id',
+        'price'
+    ];
 
 }

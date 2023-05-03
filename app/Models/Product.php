@@ -10,7 +10,7 @@ class Product extends Model
 
     protected $guarded = [];
 
-    protected $with = ['product_category', 'discount', 'images' ];
+    protected $with = ['product_category', 'discount', 'images','size' ];
 
     protected $appends = ['product_variants', 'shipping_id'];
 
@@ -50,14 +50,15 @@ class Product extends Model
         return $this->hasMany(ProductImage::class, 'product_id','id');
     }
 
-    public function product_sizes()
+    public function size()
     {
-        return $this->hasMany(ProductSize::class, 'product_id','id');
-    }
-
-    public function product_variants()
-    {
-        return $this->hasMany(ProductVariant::class, 'product_id','id');
+        return $this->hasOne(ProductSize::class)->withDefault([
+            "weight_type" => null,
+            "weight" => null,
+            "width" => null,
+            "height" => null,
+            "length" => null,
+        ]);
     }
 
     public function product_variant_option_prices()
@@ -89,20 +90,12 @@ class Product extends Model
 
     }
 
-    public function getImageUrlAttribute()
-{
-    $image = $this->images()->orderBy('id', 'asc')->first();
-
-    if ($image) {
-        return $image->image_url;
-    } else {
-        return '/default-image.jpg'; // Varsayılan resim yolunu belirleyebilirsiniz
-    }
-}
-
-
-
-
-
 
 }
+
+
+
+
+
+
+
